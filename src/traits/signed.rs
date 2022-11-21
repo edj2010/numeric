@@ -5,7 +5,6 @@ use std::cmp::Ordering;
 use std::ops::Neg;
 
 pub trait Signed: Number + Neg<Output = Self> {
-    #[inline]
     fn sign(&self) -> Sign;
 
     #[inline]
