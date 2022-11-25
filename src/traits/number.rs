@@ -1,4 +1,4 @@
-use std::ops::{Add, Div, Mul, Rem, Sub};
+use std::ops::{Add, Div, Mul, Sub};
 
 /// Additive Identity
 ///
@@ -52,29 +52,28 @@ impl_one!(u8, 1; u16, 1; u32, 1; u64, 1; usize, 1; i8, 1; i16, 1; i32, 1; i64, 1
 #[cfg(has_i128)]
 impl_one!(u128, 1; i128, 1;);
 
-pub trait Number:
-    PartialEq
-    + Zero
-    + One
-    + Add<Self, Output = Self>
-    + Sub<Self, Output = Self>
-    + Mul<Self, Output = Self>
-    + Div<Self, Output = Self>
-    + Rem<Self, Output = Self>
-{
-}
+/////////
+/// Trait describing a group
+/// Promises notion of equality, additive identity, and inverses
+/////////
 
-impl<T> Number for T where
-    T: PartialEq
-        + Zero
-        + One
-        + Add<Self, Output = Self>
-        + Sub<Self, Output = Self>
-        + Mul<Self, Output = Self>
-        + Div<Self, Output = Self>
-        + Rem<Self, Output = Self>
-{
-}
+pub trait Group: PartialEq + Zero + Add<Self, Output = Self> + Sub<Self, Output = Self> {}
+
+impl<T> Group for T where T: PartialEq + Zero + Add<Self, Output = Self> + Sub<Self, Output = Self> {}
+/////////
+/// Trait describing number ring with
+/// not-necessarily commutative/invertable multiplication
+/////////
+pub trait Ring: Group + One + Mul<Self, Output = Self> {}
+
+impl<T> Ring for T where T: Group + One + Mul<Self, Output = Self> {}
+
+/////////
+/// Trait describing a generic number, with a notion of division and remainder
+/////////
+pub trait Number: Ring + Div<Self, Output = Self> {}
+
+impl<T> Number for T where T: Ring + Div<Self, Output = Self> {}
 
 #[cfg(test)]
 mod tests {
@@ -83,6 +82,7 @@ mod tests {
     #[test]
     fn zero() {
         assert_eq!(usize::zero(), 0_usize);
+        assert_eq!(u8::zero(), 0_u8);
         assert_eq!(f64::zero(), 0.0_f64);
     }
 
