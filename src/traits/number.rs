@@ -56,7 +56,6 @@ impl_one!(u128, 1; i128, 1;);
 /// Trait describing a group
 /// Promises notion of equality, additive identity, and inverses
 /////////
-
 pub trait Group: PartialEq + Zero + Add<Self, Output = Self> + Sub<Self, Output = Self> {}
 
 impl<T> Group for T where T: PartialEq + Zero + Add<Self, Output = Self> + Sub<Self, Output = Self> {}

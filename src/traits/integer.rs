@@ -133,3 +133,4 @@ impl_euclidean_signed_int!(i8; i16; i32; i64; isize;);
 
 #[cfg(has_i128)]
 impl_euclidean_signed_int!(i128;);
+
